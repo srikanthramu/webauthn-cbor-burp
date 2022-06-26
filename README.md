@@ -6,9 +6,14 @@ WebAuthn CBOR is a Web Burp Extension to Decode WebAuthn CBOR format. [WebAuthn]
 2. Compile the code: `gradle bigJar`. The compiled jar location is `build/libs/webauthn-cbor-burp-all-1.0.jar`
 3. [Follow the instructions](https://portswigger.net/burp/documentation/desktop/tools/extender#installing-an-extension-from-a-file) to load the jar.
 
+## Environment Requirements
+This extension was developed with following setup:
+1. JDK 11
+2. Gradle 7.4.2
+
 # Usage
 * Intercept the WebAuthn request/response using Burp proxy
-* If the request has `attestationObject`, a new Tab `WebAuthn CBOR Decode` will be added and the decoded CBOR format will be dispalyed. See **Screeshot** security below.
+* If the request has a `attestationObject` parameter, a new Tab `WebAuthn CBOR Decode` will be added and the decoded CBOR format will be dispalyed. See **Screenshot** section below.
 
 ## Screenshot
 ![](images/webauthn-cbor-decode.png)
