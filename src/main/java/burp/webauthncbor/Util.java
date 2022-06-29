@@ -20,12 +20,15 @@ public class Util {
      * @return
      */
     public static byte[] getDecodedAttestObjectArray(byte[] cborArray){
-        ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-        ObjectConverter objectConverter = new ObjectConverter(objectMapper, new ObjectMapper(new CBORFactory()));
-        CborConverter cborConverter = objectConverter.getCborConverter();
-        AttestationObject attestObj = cborConverter.readValue(cborArray, AttestationObject.class);        
-        JsonConverter jsonConverter = objectConverter.getJsonConverter();
-        byte[] decodedAttestObjArray = jsonConverter.writeValueAsString(attestObj).getBytes();
-        return decodedAttestObjArray;
+        if (cborArray != null && cborArray.length > 0) {
+            ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+            ObjectConverter objectConverter = new ObjectConverter(objectMapper, new ObjectMapper(new CBORFactory()));
+            CborConverter cborConverter = objectConverter.getCborConverter();
+            AttestationObject attestObj = cborConverter.readValue(cborArray, AttestationObject.class);        
+            JsonConverter jsonConverter = objectConverter.getJsonConverter();
+            byte[] decodedAttestObjArray = jsonConverter.writeValueAsString(attestObj).getBytes();
+            return decodedAttestObjArray;
+        }
+        return Constants.ERROR_MSG.getBytes();
     }
 }

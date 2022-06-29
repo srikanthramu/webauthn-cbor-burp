@@ -19,7 +19,7 @@ dependencies {
     implementation 'net.portswigger.burp.extender:burp-extender-api:2.1'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.13.1'
     implementation 'com.webauthn4j:webauthn4j-core:0.19.2.RELEASE'
-    implementation 'junit:junit:4.13.2'
+    testImplementation 'junit:junit:4.13.2'
 }
 
 java {
@@ -27,21 +27,15 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 
-sourceSets {
-    main {
-        java {
-            // Set the source directory to "src"
-            srcDirs = ['src']
-        }
-    }
-    
-    test {
-    	java {
-    		srcDirs = ['test']
-    	}
+test {
+    useJUnit()
+    maxHeapSize = '1G'
+    testLogging {
+        events "passed", "skipped", "failed"
+        outputs. upToDateWhen {false}
+        showStandardStreams = true
     }
 }
-
 
 // Create a task for bundling all dependencies into a jar file.
 task bigJar(type: Jar) {
