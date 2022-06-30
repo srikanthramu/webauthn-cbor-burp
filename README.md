@@ -22,6 +22,9 @@ This extension was developed and tested with the following setup:
 ## Screenshot
 ![](images/webauthn-cbor-decode.png)
 
+## Acknowledgement
+This extension depends on various other libraries and their transient dependencies. See the *build.gradle* for the list of direct dependencies. Thanks to all the contributors.
+
 ## References
 * https://fidoalliance.org/fido2-2/fido2-web-authentication-webauthn/
 * https://webauthn.guide/
