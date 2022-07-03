@@ -6,4 +6,5 @@ package burp.webauthncbor;
 public class Constants {
     public static final String EXTENSION_NAME = "WebAuthn CBOR";
     public static final String ERROR_MSG = "Error in decoding";
+    public static final String TAB_CAPTION = "WebAuthn CBOR Decode";
 }

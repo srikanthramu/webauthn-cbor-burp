@@ -12,11 +12,10 @@ import burp.IMessageEditorController;
 import burp.IMessageEditorTab;
 import burp.IMessageEditorTabFactory;
 import burp.IParameter;
-
-// Extension imports
 import burp.ITextEditor;
+
+// This Extension imports
 import burp.webauthncbor.Constants;
-import burp.webauthncbor.Util;
 import burp.webauthncbor.Util;
 
 /**
@@ -82,7 +81,7 @@ public class BurpExtender implements IBurpExtender, IMessageEditorTabFactory
         @Override
         public String getTabCaption()
         {
-            return "WebAuthn CBOR Decode";
+            return Constants.TAB_CAPTION;
         }
 
         @Override
@@ -111,7 +110,6 @@ public class BurpExtender implements IBurpExtender, IMessageEditorTabFactory
             {
                 // retrieve the data parameter
                 IParameter parameter = helpers.getRequestParameter(content, CBORPARAM);
-                
                 // deserialize the parameter value
                 byte[] cborArray = Base64.getUrlDecoder().decode(parameter.getValue());
                 byte[] decodedAttestObjArray = Util.getDecodedAttestObjectArray(cborArray);
@@ -131,7 +129,6 @@ public class BurpExtender implements IBurpExtender, IMessageEditorTabFactory
             {
                 // reserialize the data
                 byte[] text = txtInput.getText();
-                //String input = helpers.urlEncode(helpers.base64Encode(text));
                 String input = new String(text);
                 // update the request with the new parameter value
                 return helpers.updateParameter(currentMessage, helpers.buildParameter(CBORPARAM, input, IParameter.PARAM_BODY));

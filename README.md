@@ -23,7 +23,7 @@ This extension was developed and tested with the following setup:
 ![](images/webauthn-cbor-decode.png)
 
 ## Acknowledgement
-This extension depends on various other libraries and their transient dependencies. See the *build.gradle* for the list of direct dependencies. Thanks to all the contributors.
+This extension depends on various other libraries and their transient dependencies. See the *build.gradle* for the list of direct dependencies. Thanks to all the contributors. This Burp Extension is based on https://github.com/PortSwigger/example-custom-editor-tab/tree/master/java. 
 
 ## References
 * https://fidoalliance.org/fido2-2/fido2-web-authentication-webauthn/
