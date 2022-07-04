@@ -64,7 +64,6 @@ public class BurpExtender implements IBurpExtender, IMessageEditorTabFactory
         private boolean editable;
         private ITextEditor txtInput;
         private byte[] currentMessage;
-        private String CBORPARAM = "attestationObject";
         
         public WebAuthnCBORInputTab(IMessageEditorController controller, boolean editable)
         {
@@ -93,8 +92,8 @@ public class BurpExtender implements IBurpExtender, IMessageEditorTabFactory
         @Override
         public boolean isEnabled(byte[] content, boolean isRequest)
         {
-        	// enable this tab for requests containing a data parameter
-            return isRequest && null != helpers.getRequestParameter(content, CBORPARAM);
+        	// enable this tab for requests containing WebAuthn CBOR data
+            return isRequest && Util.isWebAuthnCBOR(helpers, content);
         }
 
         @Override
@@ -103,18 +102,25 @@ public class BurpExtender implements IBurpExtender, IMessageEditorTabFactory
         	if (content == null)
             {
                 // clear our display
-                txtInput.setText(null);
-                txtInput.setEditable(false);
+                Util.clearEditorDisplay(txtInput);
             }
             else
             {
-                // retrieve the data parameter
-                IParameter parameter = helpers.getRequestParameter(content, CBORPARAM);
-                // deserialize the parameter value
-                byte[] cborArray = Base64.getUrlDecoder().decode(parameter.getValue());
-                byte[] decodedAttestObjArray = Util.getDecodedAttestObjectArray(cborArray);
-                txtInput.setText(decodedAttestObjArray);
-                txtInput.setEditable(editable);
+                // retrieve the WebAuthn CBOR data parameter
+                IParameter parameter = Util.getWebAuthnCBOR(helpers, content);
+                if (parameter != null) 
+                {
+                    // deserialize the parameter value
+                    byte[] cborArray = Base64.getUrlDecoder().decode(parameter.getValue());
+                    byte[] decodedAttestObjArray = Util.getDecodedAttestObjectArray(cborArray);
+                    txtInput.setText(decodedAttestObjArray);
+                    txtInput.setEditable(editable);
+                }
+                else
+                {
+                    // clear our display
+                    Util.clearEditorDisplay(txtInput);
+                }
             }
             
             // remember the displayed content
@@ -131,7 +137,7 @@ public class BurpExtender implements IBurpExtender, IMessageEditorTabFactory
                 byte[] text = txtInput.getText();
                 String input = new String(text);
                 // update the request with the new parameter value
-                return helpers.updateParameter(currentMessage, helpers.buildParameter(CBORPARAM, input, IParameter.PARAM_BODY));
+                return helpers.updateParameter(currentMessage, helpers.buildParameter(Constants.CBORPARAM, input, IParameter.PARAM_BODY));
             }
             else return currentMessage;
         }

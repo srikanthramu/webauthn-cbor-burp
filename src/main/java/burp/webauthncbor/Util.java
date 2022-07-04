@@ -9,6 +9,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+// Burp imports
+import burp.IExtensionHelpers;
+import burp.IParameter;
+import burp.ITextEditor;
+
 /**
  * A collection of utilities
  */
@@ -19,7 +24,7 @@ public class Util {
      * @param cborArray
      * @return
      */
-    public static byte[] getDecodedAttestObjectArray(byte[] cborArray){
+    public static byte[] getDecodedAttestObjectArray(byte[] cborArray) {
         // Check if the attestationObject value is empty
         if (cborArray != null && cborArray.length > 0) {
             // Ensure the out is propery indented
@@ -35,4 +40,36 @@ public class Util {
         // Return error message when valid attestationObject CBOR data is not found
         return Constants.ERROR_MSG.getBytes();
     }
+
+    /**
+     * Checks whether the content/webauthn request has CBOR data
+     * @param helpers
+     * @param content
+     * @return
+     */
+    public static boolean isWebAuthnCBOR(IExtensionHelpers helpers, byte[] content) {
+        // To_DO: There could be CBOR data in other params
+        return null != helpers.getRequestParameter(content, Constants.CBORPARAM);
+    }
+
+    /**
+     * Returns the parameter that contains CBOR data
+     * @param helpers
+     * @param content
+     * @return
+     */
+    public static IParameter getWebAuthnCBOR(IExtensionHelpers helpers, byte[] content) {
+        // To_DO: There could be CBOR data in other params
+        return helpers.getRequestParameter(content, Constants.CBORPARAM);
+    }
+    
+    /**
+     * Clears the editor display and makes it uneditable
+     * @param txtInput
+     */
+    public static void clearEditorDisplay(ITextEditor txtInput) {
+        txtInput.setText(null);
+        txtInput.setEditable(false);
+    }
+
 }
