@@ -20,6 +20,10 @@ This extension was developed and tested with the following setup:
 * Chrome has WebAuthn authenticator emulator - https://developer.chrome.com/docs/devtools/webauthn/ 
 
 ## Screenshot
+### attestationObject in CBOR format
+![](images/webauthn-cbor-data.png)
+
+### Decoded View
 ![](images/webauthn-cbor-decode.png)
 
 ## Acknowledgement
